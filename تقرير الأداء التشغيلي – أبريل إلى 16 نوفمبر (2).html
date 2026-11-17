@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تقرير الأداء التشغيلي – أبريل إلى 16 نوفمبر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f5f8; --surface:#fff; --ink:#0f1f2e; --ink2:#586675; --line:#d9e0e8; --row:#eef2f7;
+  --navy:#0b2540; --teal:#0e7c86; --brick:#c8553d; --amber:#d9951f; --steel:#4a6fa5; --on:#fff;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0b141d; --surface:#122030; --ink:#e6edf4; --ink2:#93a3b3; --line:#223446; --row:#172a3d;
+  --navy:#06121e; --teal:#3cc0cb; --brick:#ef7d63; --amber:#f0b44d; --steel:#7ea3d8; --on:#06121e;}
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif;line-height:1.85;font-size:16px;
+  padding-bottom:env(safe-area-inset-bottom,0px);font-variant-numeric:tabular-nums}
+.hero{background:var(--navy);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 44px) 20px 48px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.hero-in{max-width:920px;margin:0 auto}
+.hero h1{font-size:clamp(30px,5.5vw,46px);font-weight:700;line-height:1.25;margin:0 0 6px}
+.hero .sub{margin:0;font-size:18px;color:#a9bdd1}
+.hero .meta{margin:18px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.18);font-size:14px;color:#a9bdd1;display:flex;flex-wrap:wrap;gap:4px 28px}
+.hero .meta b{color:#fff;font-weight:600}
+.stage{display:grid;grid-template-columns:200px 1fr;gap:36px;align-items:center;margin-top:34px}
+.ring{width:200px;height:200px}
+.ring text{fill:#fff;font-family:inherit}
+.stats{display:grid;grid-template-columns:repeat(3,1fr)}
+.stats div{padding:0 22px;border-inline-start:1px solid rgba(255,255,255,.18)}
+.stats div:first-child{border-inline-start:0;padding-inline-start:0}
+.stats b{display:block;font-size:clamp(34px,6vw,52px);font-weight:600;line-height:1.1}
+.stats span{font-size:14px;color:#a9bdd1}
+main{max-width:920px;margin:0 auto;padding:12px 20px 64px}
+h2{font-size:22px;font-weight:700;margin:48px 0 14px;padding-bottom:10px;border-bottom:2px solid var(--ink);display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:10px;height:10px;background:var(--teal);border-radius:2px;flex:none}
+p{margin:0 0 12px;max-width:72ch}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface);margin:12px 0 20px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:480px}
+th,td{padding:11px 16px;text-align:center;border-bottom:1px solid var(--line)}
+th{background:var(--row);font-weight:600;font-size:14px;color:var(--ink2)}
+td:first-child,th:first-child{text-align:start}
+tr:last-child td{border-bottom:0}
+tr.total td{font-weight:700;background:var(--row);border-top:2px solid var(--ink)}
+td.rate{min-width:170px}
+.rt{display:flex;align-items:center;gap:10px;justify-content:center}
+.rt b{font-weight:600;min-width:62px;text-align:end}
+.rb{flex:1;height:8px;background:var(--row);border-radius:4px;overflow:hidden;max-width:90px}
+.rb i{display:block;height:100%;border-radius:4px}
+td.low b{color:var(--brick)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:10px}
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 16px 12px;margin:18px 0}
+.fig h3{font-size:17px;margin:0 4px 4px;font-weight:600}
+.fig .cap{font-size:13px;color:var(--ink2);margin:8px 4px 0}
+.stack{display:flex;height:40px;border-radius:4px;overflow:hidden;margin:16px 4px 14px;direction:rtl;gap:2px}
+.stack div{display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--on);min-width:0}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 16px;margin:0 4px;font-size:14px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-inline-end:8px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:inherit;fill:var(--ink)}
+svg .s2{fill:var(--ink2)}
+ul{padding-inline-start:0;margin:0 0 12px;list-style:none}
+li{padding:12px 0 12px 0;border-bottom:1px solid var(--line);max-width:74ch;padding-inline-start:20px;position:relative}
+li::before{content:"";position:absolute;inset-inline-start:0;top:1.2em;width:8px;height:8px;border-radius:50%;background:var(--teal)}
+@media (max-width:640px){.stage{grid-template-columns:1fr;justify-items:center;gap:24px}.stats{width:100%}.stats div{padding:0 12px}}
+@media print{body{background:#fff}.fig,.scroll{break-inside:avoid}}
+
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:40}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.12)}
+.nav-in{max-width:920px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding:0 12px}
+.nav a{color:#a9bdd1;text-decoration:none;font-size:14px;font-weight:500;padding:13px 12px;white-space:nowrap;border-bottom:3px solid transparent}
+.nav a:hover{color:#fff}.nav a.on{color:#fff;border-bottom-color:#3cc0cb}
+.prog{position:absolute;right:0;top:0;height:2px;width:0;background:#3cc0cb}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+#rc{transition:stroke-dasharray 1.2s cubic-bezier(.2,.7,.2,1)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.chip{font:inherit;font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--teal)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 18px 12px;margin:0 0 20px}
+.ph{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:baseline;margin-bottom:14px}
+.ph b{font-size:18px;font-weight:700}
+.delta{font-size:14px;font-weight:600}.delta.pos{color:var(--teal)}.delta.neg{color:var(--brick)}.delta.eq{color:var(--ink2)}
+.pm{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));row-gap:12px;margin-bottom:16px}
+.pm div{padding:0 16px;border-inline-start:1px solid var(--line)}.pm div:first-child{border-inline-start:0;padding-inline-start:0}
+.pm b{display:block;font-size:30px;font-weight:600;line-height:1.2}.pm span{font-size:13px;color:var(--ink2)}
+.gl{font-size:13px;color:var(--ink2)}
+.gt{position:relative;height:12px;background:var(--row);border-radius:6px;margin:8px 0 18px}
+.gf{position:absolute;right:0;top:0;height:100%;border-radius:6px;transform-origin:100% 50%;animation:grow .5s ease-out}
+.gm{position:absolute;top:-5px;width:2px;height:22px;background:var(--ink)}
+@keyframes grow{from{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){.gf{animation:none}html{scroll-behavior:auto}#rc{transition:none}}
+tr[data-i]{cursor:pointer}tr[data-i]:hover td{background:var(--row)}tr.sel td{background:var(--row);font-weight:600}tr.sel td:first-child{box-shadow:inset -4px 0 0 var(--teal)}
+.fig{position:relative}
+.tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;font-size:13px;line-height:1.6;padding:8px 12px;border-radius:6px;transform:translate(-50%,-110%);white-space:nowrap;z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.tip[hidden]{display:none}
+.cb{cursor:pointer;outline:none;transition:opacity .2s}.cb.dim{opacity:.35}
+.cb:hover .bar,.cb:focus-visible .bar{stroke:var(--ink);stroke-width:2}.cb.on .bar{stroke:var(--ink);stroke-width:3}
+.hint{font-size:13px;color:var(--ink2);margin:0 0 4px}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-in">
+  <h1>تقرير الأداء التشغيلي</h1>
+  <p class="sub">تحليل الطلبات والتوصيل والإلغاء</p>
+  <div class="stage">
+    <svg class="ring" viewBox="0 0 200 200" role="img" aria-label="نسبة نجاح التوصيل 61.19%">
+      <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="14"/>
+      <circle id="rc" cx="100" cy="100" r="82" fill="none" stroke="#3cc0cb" stroke-width="14" stroke-linecap="round" stroke-dasharray="315.2 515.2" transform="rotate(-90 100 100)"/>
+      <text data-n="61.19" data-d="2" data-s="%" x="100" y="104" text-anchor="middle" font-size="38" font-weight="700">61.19%</text>
+      <text x="100" y="130" text-anchor="middle" font-size="13" style="fill:#a9bdd1">نسبة نجاح التوصيل</text>
+    </svg>
+    <div class="stats">
+      <div><b data-n="353">353</b><span>إجمالي الطلبات</span></div>
+      <div><b data-n="216">216</b><span>تم التوصيل</span></div>
+      <div><b data-n="137">137</b><span>لم يتم التوصيل</span></div>
+    </div>
+  </div>
+  <p class="meta"><span>الفترة: <b>أبريل – 16 نوفمبر</b></span><span>إعداد رئيس قسم التشغيل: <b>حسين عبدالمنعم السيد</b></span></p>
+</div></header>
+<nav class="nav" aria-label="أقسام التقرير"><div class="nav-in" id="nav"><a href="#s1">الملخص</a><a href="#s2">الأداء الشهري</a><a href="#s3">الحالات غير الموصَّلة</a><a href="#s4">نسب التوصيل</a><a href="#s5">أبرز النتائج</a></div><i class="prog" id="prog"></i></nav>
+
+<main>
+<h2 id="s1">أولًا: الملخص التنفيذي</h2>
+<p>يعرض هذا التقرير مؤشرات الأداء التشغيلي خلال الفترة من أبريل حتى 16 نوفمبر، بالاعتماد على البيانات المسجلة للطلبات وحالات التوصيل. بلغ إجمالي الطلبات 353 طلبًا، تم توصيل 216 طلبًا منها، بينما لم يتم توصيل 137 طلبًا، لتصل نسبة نجاح التوصيل الإجمالية إلى 61.19%.</p>
+
+<div class="fig">
+  <h3>مصير الطلبات الـ 353</h3>
+  <div class="stack" id="stack" role="img" aria-label="توزيع الطلبات: تم التوصيل 61.19%، ملغاة 20.68%، جديدة للمتابعة 17.56%، جاهزة مرفوعة لشركة الشحن 0.57%"></div>
+  <div class="legend" id="legend"></div>
+  <p class="cap">النسب من إجمالي الطلبات (353). الطلبات غير الموصَّلة = 38.81%. لا تشمل البيانات الطلبات المسترجعة والمستبدلة وقطع الغيار.</p>
+</div>
+
+<h2 id="s2">ثانيًا: الأداء الشهري</h2>
+<p>يوضح الجدول التالي حجم الطلبات ونتائج التوصيل لكل شهر، إلى جانب نسبة نجاح التوصيل. شهر نوفمبر يشمل الفترة من 1 إلى 16 نوفمبر فقط.</p>
+<p class="hint">اختر شهرًا لاستعراض نتائجه ومقارنتها بالمتوسط الإجمالي، أو اضغط على أي صف في الجدول أو عمود في الرسم البياني.</p>
+<div class="chips" id="chips" role="group" aria-label="اختيار الشهر"></div>
+<div class="panel" id="panel" aria-live="polite"></div>
+<div class="scroll"><table id="t-month"></table></div>
+
+<h2 id="s3">ثالثًا: تحليل حالات الطلبات غير الموصَّلة</h2>
+<p>تتوزع الطلبات التي لم يتم توصيلها إلى ثلاث حالات تشغيلية: طلبات ملغاة، وطلبات جديدة تحتاج إلى المتابعة، وطلبات جاهزة (مرفوعة لشركة الشحن). تمثل الطلبات الملغاة أكبر حالة بعدد 73 طلبًا (53.28%)، تليها الطلبات الجديدة للمتابعة بعدد 62 طلبًا (45.26%)، ثم الجاهزة المرفوعة لشركة الشحن بعدد طلبين (1.46%).</p>
+<div class="scroll"><table id="t-status"></table></div>
+<p>ويوضح الجدول التالي توزيع هذه الحالات على مستوى الشهر.</p>
+<div class="scroll"><table id="t-status-month"></table></div>
+
+<h2 id="s4">رابعًا: نسب نجاح التوصيل</h2>
+<p>تراوحت نسب نجاح التوصيل الشهرية بين 51.52% و71.70%. سجل يونيو أعلى نسبة، يليه مايو وأكتوبر بنسبة 66.67% لكل منهما، بينما سجل يوليو أقل نسبة خلال الفترة، يليه أغسطس بنسبة 54.84%.</p>
+<div class="fig">
+  <h3>نسبة التوصيل دون المتوسط في أبريل ويوليو وأغسطس ونوفمبر، وأدناها في يوليو</h3>
+  <div id="chart"></div><div class="tip" id="tip" role="tooltip" hidden></div>
+  <p class="cap">الأعمدة بلون القرميد = أشهر دون المتوسط الإجمالي (61.19%). الرقم تحت اسم كل شهر = إجمالي الطلبات. * نوفمبر: من 1 إلى 16 فقط. مرّر المؤشر على العمود لعرض التفاصيل، واضغط عليه لاستعراض الشهر.</p>
+</div>
+
+<h2 id="s5">خامسًا: أبرز النتائج والملاحظات</h2>
+<ul>
+  <li>سجل يوليو أعلى حجم طلبات (66 طلبًا)، وكان في الوقت نفسه أقل الأشهر في نسبة نجاح التوصيل (51.52%).</li>
+  <li>سجل يونيو أعلى نسبة نجاح توصيل (71.70%).</li>
+  <li>سجل يوليو أعلى عدد طلبات ملغاة (21 طلبًا).</li>
+  <li>سجل أغسطس أعلى عدد طلبات جديدة تحتاج إلى المتابعة (15 طلبًا)، يليه يوليو بـ 11 طلبًا.</li>
+  <li>نوفمبر (1–16) سجل 30 طلبًا ونسبة توصيل 60.00%، وهي دون المتوسط الإجمالي بفارق طفيف، علمًا بأن الشهر لم يكتمل بعد. وفي حال توصيل الطلبين الجاهزين المرفوعين لشركة الشحن تصبح نسبة نوفمبر 66.67% (20 من 30).</li>
+  <li>بلغ عدد الطلبات الملغاة 73 طلبًا، والجديدة التي تحتاج إلى المتابعة 62 طلبًا، والجاهزة المرفوعة لشركة الشحن طلبين.</li>
+</ul>
+</main>
+
+<script>
+const M=[
+ {m:'أبريل',k:'أبريل',t:24,d:14,n:3,c:7,s:0},
+ {m:'مايو',k:'مايو',t:18,d:12,n:2,c:4,s:0},
+ {m:'يونيو',k:'يونيو',t:53,d:38,n:6,c:9,s:0},
+ {m:'يوليو',k:'يوليو',t:66,d:34,n:11,c:21,s:0},
+ {m:'أغسطس',k:'أغسطس',t:62,d:34,n:15,c:13,s:0},
+ {m:'سبتمبر',k:'سبتمبر',t:52,d:34,n:10,c:8,s:0},
+ {m:'أكتوبر',k:'أكتوبر',t:48,d:32,n:9,c:7,s:0},
+ {m:'نوفمبر (1–16)',k:'نوفمبر*',t:30,d:18,n:6,c:4,s:2}];
+const sum=k=>M.reduce((s,x)=>s+x[k],0);
+const T=sum('t'),D=sum('d'),N=sum('n'),C=sum('c'),S=sum('s'),U=T-D;
+const ALL={t:T,d:D,n:N,c:C,s:S};
+const pct=(a,b)=>(a/b*100).toFixed(2)+'%';
+const overall=D/T*100;
+const $=id=>document.getElementById(id);
+const dot=c=>`<i class="dot" style="background:var(${c})"></i>`;
+let sel=null;
+
+const parts=x=>[
+ {l:'تم التوصيل',v:x.d,c:'--teal'},
+ {l:'ملغاة',v:x.c,c:'--brick'},
+ {l:'جديدة للمتابعة',v:x.n,c:'--amber',tc:'#14212b'},
+ {l:'جاهزة (مرفوعة لشركة الشحن)',v:x.s,c:'--steel'}];
+const segs=x=>parts(x).map(p=>`<div style="width:${p.v/x.t*100}%;background:var(${p.c});${p.tc?'color:'+p.tc:''}">${p.v/x.t>0.1?pct(p.v,x.t):''}</div>`).join('');
+const legs=x=>parts(x).map(p=>`<div><i style="background:var(${p.c})"></i>${p.l}: ${p.v} (${pct(p.v,x.t)})</div>`).join('');
+
+$('t-status').innerHTML=
+ '<tr><th>الحالة</th><th>العدد</th><th>النسبة من غير الموصَّل</th><th>النسبة من إجمالي الطلبات</th></tr>'+
+ [['تم الإلغاء',C,'--brick'],['جديد (للمتابعة)',N,'--amber'],['جاهز (مرفوع لشركة الشحن)',S,'--steel']].map(([l,v,c])=>`<tr><td>${dot(c)}${l}</td><td>${v}</td><td>${pct(v,U)}</td><td>${pct(v,T)}</td></tr>`).join('')+
+ `<tr class="total"><td>الإجمالي</td><td>${U}</td><td>100%</td><td>${pct(U,T)}</td></tr>`;
+$('t-status-month').innerHTML=
+ '<tr><th>الشهر</th><th>جديد (للمتابعة)</th><th>تم الإلغاء</th><th>جاهز (مرفوع لشركة الشحن)</th><th>الإجمالي</th></tr>'+
+ M.map(x=>`<tr><td>${x.m}</td><td>${x.n}</td><td>${x.c}</td><td>${x.s}</td><td>${x.n+x.c+x.s}</td></tr>`).join('')+
+ `<tr class="total"><td>الإجمالي</td><td>${N}</td><td>${C}</td><td>${S}</td><td>${U}</td></tr>`;
+$('stack').innerHTML=segs(ALL);
+$('legend').innerHTML=legs(ALL);
+
+function renderChips(){
+ $('chips').innerHTML=['الكل',...M.map(x=>x.m)].map((l,i)=>`<button class="chip" data-i="${i-1}" aria-pressed="${sel===i-1||(sel===null&&i===0)}">${l}</button>`).join('');
+}
+function renderPanel(){
+ const x=sel===null?ALL:M[sel],r=x.d/x.t*100,dl=r-overall,low=r<overall;
+ const dt=sel===null?['eq','المتوسط الإجمالي للفترة']:[dl<0?'neg':'pos',(dl<0?'−':'+')+Math.abs(dl).toFixed(2)+' نقطة مئوية عن المتوسط'];
+ $('panel').innerHTML=`<div class="ph"><b>${sel===null?'كل الأشهر (أبريل – 16 نوفمبر)':M[sel].m}</b><span class="delta ${dt[0]}">${dt[1]}</span></div>
+ <div class="pm"><div><b>${x.t}</b><span>إجمالي الطلبات</span></div><div><b>${x.d}</b><span>تم التوصيل</span></div><div><b>${x.t-x.d}</b><span>لم يتم التوصيل</span></div><div><b style="color:var(${low?'--brick':'--teal'})">${r.toFixed(2)}%</b><span>نسبة نجاح التوصيل</span></div></div>
+ <span class="gl">نسبة التوصيل مقابل المتوسط الإجمالي (${overall.toFixed(2)}%) — الخط الأسود = المتوسط</span>
+ <div class="gt"><i class="gf" style="width:${r}%;background:var(${low?'--brick':'--teal'})"></i><u class="gm" style="right:${overall}%"></u></div>
+ <div class="stack">${segs(x)}</div><div class="legend">${legs(x)}</div>`;
+}
+function renderTable(){
+ $('t-month').innerHTML=
+ '<tr><th>الشهر</th><th>إجمالي الطلبات</th><th>تم التوصيل</th><th>لم يتم التوصيل</th><th>نسبة التوصيل</th></tr>'+
+ M.map((x,i)=>{const r=x.d/x.t*100,low=r<overall;return `<tr data-i="${i}" class="${sel===i?'sel':''}"><td>${x.m}</td><td>${x.t}</td><td>${x.d}</td><td>${x.t-x.d}</td><td class="rate ${low?'low':''}"><div class="rt"><b>${pct(x.d,x.t)}</b><span class="rb"><i style="width:${r}%;background:var(${low?'--brick':'--teal'})"></i></span></div></td></tr>`}).join('')+
+ `<tr class="total"><td>الإجمالي</td><td>${T}</td><td>${D}</td><td>${U}</td><td>${pct(D,T)}</td></tr>`;
+}
+function renderChart(){
+ const W=760,H=350,base=290,scale=2.2,left=150,right=745,band=(right-left)/M.length,bw=band*.52;
+ const y=v=>base-v*scale,cx=i=>right-band*(i+.5),ref=y(overall);
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="group" aria-label="نسبة نجاح التوصيل الشهرية مقارنة بالمتوسط الإجمالي" direction="ltr">`;
+ [25,50,75].forEach(g=>{s+=`<line x1="${left-10}" x2="${right}" y1="${y(g)}" y2="${y(g)}" stroke="var(--line)"/><text class="s2" x="${left-16}" y="${y(g)+4}" text-anchor="end" font-size="11">${g}%</text>`});
+ s+=`<line x1="${left-10}" x2="${right}" y1="${base}" y2="${base}" stroke="var(--ink)" stroke-width="1.5"/>`;
+ M.forEach((x,i)=>{
+  const rate=x.d/x.t*100,low=rate<overall;
+  let ly=y(rate)-8; if(ly-12<ref+3&&ly>ref-3) ly=ref-6;
+  s+=`<g class="cb ${sel===i?'on':''} ${sel!==null&&sel!==i?'dim':''}" data-i="${i}" tabindex="0" role="button" aria-pressed="${sel===i}" aria-label="${x.m}: ${rate.toFixed(2)}%">
+  <rect x="${cx(i)-band/2}" y="10" width="${band}" height="${H-10}" fill="transparent"/>
+  <rect class="bar" x="${cx(i)-bw/2}" y="${y(rate)}" width="${bw}" height="${base-y(rate)}" rx="2" fill="var(${low?'--brick':'--teal'})"/>
+  <text x="${cx(i)}" y="${ly}" text-anchor="middle" font-size="13" font-weight="600">${rate.toFixed(2)}%</text>
+  <text x="${cx(i)}" y="${base+22}" text-anchor="middle" font-size="13">${x.k}</text>
+  <text class="s2" x="${cx(i)}" y="${base+40}" text-anchor="middle" font-size="12">${x.t} طلبًا</text></g>`;
+ });
+ s+=`<line x1="${left-10}" x2="${right}" y1="${ref}" y2="${ref}" stroke="var(--ink2)" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+ s+=`<text class="s2" x="8" y="${ref-4}" font-size="13">المتوسط الإجمالي</text><text x="8" y="${ref+15}" font-size="15" font-weight="700">${overall.toFixed(2)}%</text></svg>`;
+ $('chart').innerHTML=s;
+}
+function render(){renderChips();renderPanel();renderTable();renderChart()}
+function pick(i){sel=(i<0||sel===i)?null:i;render()}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-i]');if(el&&el.dataset.i!==undefined&&!el.closest('#tip'))pick(+el.dataset.i)});
+$('chart').addEventListener('keydown',e=>{const g=e.target.closest('.cb');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();const i=+g.dataset.i;pick(i);$('chart').querySelector(`[data-i="${i}"]`).focus()}});
+
+const tip=$('tip'),fig=$('chart').parentElement;
+function showTip(g,x,y){
+ const m=M[+g.dataset.i],r=m.d/m.t*100;
+ tip.innerHTML=`<b>${m.m}</b><br>نسبة التوصيل: ${r.toFixed(2)}% (${r<overall?'دون':'فوق'} المتوسط)<br>تم توصيل ${m.d} من ${m.t} طلبًا<br>ملغاة ${m.c}، جديدة للمتابعة ${m.n}${m.s?'، جاهزة '+m.s:''}`;
+ const b=fig.getBoundingClientRect();tip.style.left=Math.min(Math.max(x-b.left,90),b.width-90)+'px';tip.style.top=(y-b.top)+'px';tip.hidden=false;
+}
+$('chart').addEventListener('pointermove',e=>{const g=e.target.closest('.cb');g?showTip(g,e.clientX,e.clientY-8):tip.hidden=true});
+$('chart').addEventListener('pointerleave',()=>tip.hidden=true);
+$('chart').addEventListener('focusin',e=>{const g=e.target.closest('.cb');if(g){const r=g.querySelector('.bar').getBoundingClientRect();showTip(g,r.left+r.width/2,r.top)}});
+$('chart').addEventListener('focusout',()=>tip.hidden=true);
+
+render();
+
+// nav: active section + progress
+const links=[...document.querySelectorAll('#nav a')],secs=links.map(a=>$(a.hash.slice(1)));
+let tick=false;
+function onScroll(){
+ if(tick)return;tick=true;
+ requestAnimationFrame(()=>{
+  tick=false;
+  const h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);
+  $('prog').style.width=(p*100)+'%';
+  let a=0;secs.forEach((el,i)=>{if(el.getBoundingClientRect().top<140)a=i});
+  links.forEach((l,i)=>l.classList.toggle('on',i===a));
+ });
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// one-time entrance: count-up numbers and ring
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
+ document.querySelectorAll('[data-n]').forEach(el=>{
+  if(el.closest('#panel'))return;
+  const n=+el.dataset.n,d=+(el.dataset.d||0),suf=el.dataset.s||'',t0=performance.now();
+  const step=t=>{const p=Math.min((t-t0)/1000,1),e=1-Math.pow(1-p,3);el.textContent=(n*e).toFixed(d)+suf;if(p<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+ });
+ const rc=$('rc');rc.style.strokeDasharray='0 515.2';
+ requestAnimationFrame(()=>requestAnimationFrame(()=>rc.style.strokeDasharray='315.2 515.2'));
+}
+</script>
+</body>
+</html>
